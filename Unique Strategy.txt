@@ -1,0 +1,27 @@
+Startup
+-------
+
+1. If lock file does not exist
+	### first instance ###
+	1. Try to obtain port lock incrementally increasing port number
+	2. Create lock file and write port number to it
+	3. Start listener
+
+2. If lock file exists
+	1. Try to access port specified in lock file
+		### subsequent instance ###
+		1. If able to access port, validate port
+		2. If port is validated, communicate
+		
+	2. If not able to access port or port validation failed
+		### first instance - crash proof ###
+		1. Try to obtain port lock incrementally increasing port number
+		2. Overwrite lock file and write port number to it
+		3. Start listener
+
+		
+Shutdown (only occurs for first instance)
+-----------------------------------------
+
+1. Free port lock
+2. Delete lock file
